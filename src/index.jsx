@@ -42,8 +42,8 @@ function createPage(navigationView, title) {
     .appendTo(controls);
 }
 
-createTab('Cart', 'resources/cart@2x.png');
-createTab('Pay', 'resources/card@2x.png');
+createTab('Detector', 'resources/cart@2x.png');
+createTab('Map', 'resources/card@2x.png');
 createTab('Statistic', 'resources/chart@2x.png');
 
 app.onBackNavigation((event) => {
