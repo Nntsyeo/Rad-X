@@ -42,7 +42,7 @@ function createPage(navigationView, title) {
     .appendTo(controls);
 }
 
-createTab('Cart', 'icons/map@2x.svg');
+createTab('Cart', 'resources/cart@2x.png');
 createTab('Pay', 'resources/card@2x.png');
 createTab('Statistic', 'resources/chart@2x.png');
 
