@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.Rad-X.app" version="0.1.0">
+  <name>Rad-X</name>
+  <description>This is a radiation detector app</description>
+  <author email="project.rad.x@gmail.com">Team Rad-X</author>
+  <preference name="EnableDeveloperConsole" value="true"/>
+  <content src="app/package.json"/>
+</widget>
