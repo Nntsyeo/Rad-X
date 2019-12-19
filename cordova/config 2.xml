@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="otakenz.radx" version="0.1.0">
+  <name>Rad-X</name>
+  <description>
+    This is a radiation detector app
+  </description>
+  <author email="project.rad.x@gmail.com">
+    Team Rad-X
+  </author>
+
+  <preference name="EnableDeveloperConsole" value="$IS_DEBUG" />
+
+  <!-- Insert plugins here-->
+  <plugin name="cordova-plugin-ble-central" spec="~1.2.4" />
+
+</widget>
