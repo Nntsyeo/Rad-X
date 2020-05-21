@@ -15,27 +15,33 @@ float standby;
 
 
 void setup() {
-  // put your setup code here, to run once:
+
   Serial.begin(115200);
 
-  // initiate pin 36 & 39 as ADC pins
+  /*
+   * Initialisation for various peripherals:
+   *      - bluetooth connection
+   *      - PWM channels for HV and buzzer
+   *      - RGB LED pins
+   *      - ADC input pins (batt_voltage, tube_voltage)
+   */
+
+  // initialise ADC pins for batt and tube voltage monitoring
   adcAttachPin(BATTERY_PIN);
   adcAttachPin(GMTUBE_PIN);
-  adcAttachPin(CHRG_PIN);
-  adcAttachPin(STBY_PIN);
 
-  // set PWMs for boost converter and buzzer
+  // initialise PWMs for boost converter and buzzer
   setPWM();
 
-  // set interrupt service routines
+  // initialise interrupt service routines
   setISR();
 
-  // set RGB related pins
-//  setRGB();
+  // initialise RGB LED
   FastLED.addLeds<WS2812B, RGB_PIN, GRB>(leds, NUM_LEDS);
 
   // initiate bluetooth connection
   initBLE();
+
 }
 
 void loop() {

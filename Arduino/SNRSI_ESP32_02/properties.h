@@ -1,14 +1,14 @@
 
 #include "Arduino.h"
 
-#define PULSE_PIN 27 //interrupt GPIO
-#define BUZZER_PIN 14 //PWM
-#define PWM_PIN 25 //PWM
-#define BATTERY_PIN 36 //GPIO
-#define GMTUBE_PIN 39
+#define PULSE_PIN 27      // for CPM
+#define BUZZER_PIN 14     // for buzzer
+#define PWM_PIN 25        // for HV
+#define BATTERY_PIN 36    // for batt monitoring
+#define GMTUBE_PIN 39     // for tube monitoring
 #define CHRG_PIN 17
 #define STBY_PIN 16
-#define RGB_PIN 13
+#define RGB_PIN 13        // for battery and BLE indication
 
 /**************************************************** 
  * BLE section start
