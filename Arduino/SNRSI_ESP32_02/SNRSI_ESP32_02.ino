@@ -45,6 +45,13 @@ void setup() {
 }
 
 void loop() {
+
+/*
+ * The detector will send data of [ CPM, batt_voltage, tube_voltage ] via BLE every 1 second
+ */
+
+
+  
   // put your main code here, to run repeatedly:
 
   leds[0] = CRGB(255, 0, 0);
