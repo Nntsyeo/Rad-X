@@ -1,21 +1,22 @@
 // #include <Arduino.h>
 
-
-#include "methods.h"
+// #include "methods.h"
 #include "FastLED.h"
+#include <cmd.h>
 
-#define NUM_LEDS    20
+#define NUM_LEDS 20
 
 CRGB leds[NUM_LEDS];
 
 // debugging through serial monitor
 bool debug = true;
+boolean rx_status = false;
 
 float charge;
 float standby;
 
-
-void setup() {
+void setup()
+{
 
   Serial.begin(115200);
 
@@ -43,27 +44,52 @@ void setup() {
   // initiate bluetooth connection
   initBLE();
 
+  // set pointers
+  UUID = &uuid;
 }
 
-void loop() {
+void loop()
+{
 
-/*
+  rx_status = recvWithEndMarker();
+  if (rx_status)
+  {
+    if (strcmp(received_chars, "cmd_char"))
+    {
+      cmd_char = true;
+      Serial.print("Enter Characteristic UUID: ");
+    }
+    if (strcmp(received_chars, "cmd_serv") == 0)
+    {
+      cmd_serv = true;
+      Serial.print("Enter Service UUID: ");
+    }
+    if (cmd_serv)
+    {
+      cmd_serv = false;
+      UUID->service = received_chars;
+      Serial.println(received_chars);
+    }
+    if (cmd_char) {
+      cmd_char = false;
+      
+    }
+  }
+
+  /*
  * The detector will send data of [ CPM, batt_voltage, tube_voltage ] via BLE every 1 second
  */
-
-
-  
-  // put your main code here, to run repeatedly:
 
   leds[0] = CRGB(255, 0, 0);
   FastLED.show();
 
-  ledcWrite(pwm.channel,pwm.dutyCycle); 
-  
+  ledcWrite(pwm.channel, pwm.dutyCycle);
+
   // interrupt program when one second has passed
-  if (int_timer.isr_count > 0) {
+  if (int_timer.isr_count > 0)
+  {
     portENTER_CRITICAL(&timerMux);
-      int_timer.isr_count--;
+    int_timer.isr_count--;
     portEXIT_CRITICAL(&timerMux);
 
     charge = ReadVoltage(CHRG_PIN);
@@ -74,19 +100,20 @@ void loop() {
   }
 
   // interrupt program when a pulse is detected
-  if (pulse.count > 0) {
+  if (pulse.count > 0)
+  {
     portENTER_CRITICAL(&mux);
-      pulse.count--;
-    portEXIT_CRITICAL(&mux); 
+    pulse.count--;
+    portEXIT_CRITICAL(&mux);
 
     // not an efficient method at high cpm rate
-    ledcWrite(buzzer.channel,buzzer.dutyCycle); // on the buzzer
+    ledcWrite(buzzer.channel, buzzer.dutyCycle); // on the buzzer
     delay(5);
-    ledcWrite(buzzer.channel,0); // off the buzzer
+    ledcWrite(buzzer.channel, 0); // off the buzzer
 
     leds[0] = CRGB(0, 255, 0);
     FastLED.show();
-  
+
     pulse.cpm++;
   }
 
@@ -94,9 +121,10 @@ void loop() {
    * BLE section
    *****************************************************
    */
-   
+
   // check if timer is ready and device is connected
-  if (deviceConnected && timerReady) {
+  if (deviceConnected && timerReady)
+  {
     String str = "";
     str += BLEdata.cpm;
     str += ",";
@@ -104,7 +132,8 @@ void loop() {
     str += ",";
     str += BLEdata.tube_voltage;
 
-    if (debug){
+    if (debug)
+    {
       Serial.print("Device connected");
       Serial.print("\t");
       Serial.println("Sending data: " + str);
@@ -113,17 +142,19 @@ void loop() {
     }
 
     // package the value and send through one channel
-    pCharacteristic->setValue((char*)str.c_str());
+    pCharacteristic->setValue((char *)str.c_str());
     pCharacteristic->notify();
 
     timerReady = false;
   }
-  
+
   // disconnecting
-  if (!deviceConnected && oldDeviceConnected) {
-    delay(500); // give the bluetooth stack the chance to get things ready
+  if (!deviceConnected && oldDeviceConnected)
+  {
+    delay(500);                  // give the bluetooth stack the chance to get things ready
     pServer->startAdvertising(); // restart advertising
-    if(debug){
+    if (debug)
+    {
       Serial.print("Device disconnected");
       Serial.print("\t");
       Serial.println("start advertising");
@@ -131,9 +162,10 @@ void loop() {
 
     oldDeviceConnected = deviceConnected;
   }
-  
+
   // connecting
-  if (deviceConnected && !oldDeviceConnected) {
+  if (deviceConnected && !oldDeviceConnected)
+  {
     // do stuff here on connecting
     oldDeviceConnected = deviceConnected;
   }
@@ -142,6 +174,4 @@ void loop() {
    * BLE section end
    *****************************************************
    */
-   
-
 }
