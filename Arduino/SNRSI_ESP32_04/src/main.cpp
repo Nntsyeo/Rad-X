@@ -1,8 +1,7 @@
 // #include <Arduino.h>
 
-// #include "methods.h"
+#include "methods.h"
 #include "FastLED.h"
-#include <cmd.h>
 
 #define NUM_LEDS 20
 
@@ -10,7 +9,7 @@ CRGB leds[NUM_LEDS];
 
 // debugging through serial monitor
 bool debug = true;
-boolean rx_status = false;
+// boolean rx_status = false;
 
 float charge;
 float standby;
@@ -41,40 +40,19 @@ void setup()
   // initialise RGB LED
   FastLED.addLeds<WS2812B, RGB_PIN, GRB>(leds, NUM_LEDS);
 
-  // initiate bluetooth connection
-  initBLE();
-
-  // set pointers
+  // reading from EEPROM memory for bleUUID
   UUID = &uuid;
+  readUUID(UUID);
+
+  // initiate bluetooth connection
+  initBLE(UUID);
 }
 
 void loop()
 {
 
-  rx_status = recvWithEndMarker();
-  if (rx_status)
-  {
-    if (strcmp(received_chars, "cmd_char"))
-    {
-      cmd_char = true;
-      Serial.print("Enter Characteristic UUID: ");
-    }
-    if (strcmp(received_chars, "cmd_serv") == 0)
-    {
-      cmd_serv = true;
-      Serial.print("Enter Service UUID: ");
-    }
-    if (cmd_serv)
-    {
-      cmd_serv = false;
-      UUID->service = received_chars;
-      Serial.println(received_chars);
-    }
-    if (cmd_char) {
-      cmd_char = false;
-      
-    }
-  }
+  // constantly check for dev's input
+  checkForCmd(UUID);
 
   /*
  * The detector will send data of [ CPM, batt_voltage, tube_voltage ] via BLE every 1 second
