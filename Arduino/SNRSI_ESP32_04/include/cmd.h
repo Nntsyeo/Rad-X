@@ -6,7 +6,7 @@ char received_chars[numChars];
 boolean cmd_serv = false;
 boolean cmd_char = false;
 
-struct bleUUID
+struct ble_UUID
 {
     String service = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
     String characteristic = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
@@ -14,13 +14,13 @@ struct bleUUID
 
 
 
-// bleUUID *UUID, uuid;
+ble_UUID *UUID, uuid;
 
-namespace UUID_const {
-    constexpr static bleUUID *UUID, uuid;
-}
+// namespace UUID_const {
+//     constexpr static bleUUID *UUID, uuid;
+// }
 
-void storeUUID(bleUUID *ID)
+void storeUUID(ble_UUID *ID)
 {
     // store service UUID
     if (cmd_serv)
@@ -41,7 +41,7 @@ void storeUUID(bleUUID *ID)
     }
 }
 
-void readUUID(bleUUID *ID)
+void readUUID(ble_UUID *ID)
 {
     char s = EEPROM.read(200);
     char c = EEPROM.read(201);
@@ -96,7 +96,7 @@ boolean recvWithEndMarker()
     return false;
 }
 
-void checkForCmd(bleUUID *ID)
+void checkForCmd(ble_UUID *ID)
 {
     boolean status = false;
     status = recvWithEndMarker();

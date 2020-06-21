@@ -20,8 +20,8 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
-#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b" //to be changed to a unique one after development 2/Apr/2020
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8" //to be changed to a unique one after development 2/Apr/2020
+#define SERVICE_UUID         "e514ae34-a8c5-11ea-bb37-0242ac130002" //to be changed to a unique one after development 2/Apr/2020
+#define CHARACTERISTIC_UUID  "e514b19a-a8c5-11ea-bb37-0242ac130002" //to be changed to a unique one after development 2/Apr/2020
 
 BLEServer* pServer = NULL;
 BLECharacteristic* pCharacteristic = NULL;

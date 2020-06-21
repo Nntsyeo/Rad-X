@@ -9,15 +9,13 @@ CRGB leds[NUM_LEDS];
 
 // debugging through serial monitor
 bool debug = true;
-// boolean rx_status = false;
-
 float charge;
 float standby;
 
 void setup()
 {
 
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   /*
    * Initialisation for various peripherals:
@@ -40,12 +38,8 @@ void setup()
   // initialise RGB LED
   FastLED.addLeds<WS2812B, RGB_PIN, GRB>(leds, NUM_LEDS);
 
-  // reading from EEPROM memory for bleUUID
-  UUID = &uuid;
-  readUUID(UUID);
-
   // initiate bluetooth connection
-  initBLE(UUID);
+  initBLE(); //UUID);
 }
 
 void loop()
@@ -89,8 +83,8 @@ void loop()
     delay(5);
     ledcWrite(buzzer.channel, 0); // off the buzzer
 
-    leds[0] = CRGB(0, 255, 0);
-    FastLED.show();
+    // leds[0] = CRGB(0, 255, 0);
+    // FastLED.show();
 
     pulse.cpm++;
   }
@@ -103,6 +97,9 @@ void loop()
   // check if timer is ready and device is connected
   if (deviceConnected && timerReady)
   {
+    leds[0] = CRGB(0, 0, 255);
+    FastLED.show();
+
     String str = "";
     str += BLEdata.cpm;
     str += ",";

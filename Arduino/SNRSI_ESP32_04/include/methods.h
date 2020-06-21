@@ -22,7 +22,7 @@ class MyServerCallbacks : public BLEServerCallbacks
   }
 };
 
-void initBLE(bleUUID *ID)
+void initBLE()
 {
   // Create the BLE Device
   BLEDevice::init("Project Rad_X");
@@ -32,11 +32,11 @@ void initBLE(bleUUID *ID)
   pServer->setCallbacks(new MyServerCallbacks());
 
   // Create the BLE Service
-  BLEService *pService = pServer->createService(ID->service);
+  BLEService *pService = pServer->createService(SERVICE_UUID);
 
   // Create a BLE Characteristic
   pCharacteristic = pService->createCharacteristic(
-      ID->characteristic,
+      CHARACTERISTIC_UUID,
       BLECharacteristic::PROPERTY_READ |
           BLECharacteristic::PROPERTY_WRITE |
           BLECharacteristic::PROPERTY_NOTIFY |
@@ -51,7 +51,7 @@ void initBLE(bleUUID *ID)
 
   // Start advertising
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
-  pAdvertising->addServiceUUID(ID->service);
+  pAdvertising->addServiceUUID(CHARACTERISTIC_UUID);
   pAdvertising->setScanResponse(false);
   pAdvertising->setMinPreferred(0x0); // set value to 0x00 to not advertise this parameter
   BLEDevice::startAdvertising();
