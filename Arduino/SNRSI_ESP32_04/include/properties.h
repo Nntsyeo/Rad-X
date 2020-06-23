@@ -76,7 +76,7 @@ struct IntBuzzer {
 Timer int_timer = {0, 1000000};
 IntPulse pulse = {PULSE_PIN, 0, 0};
 Pwm pwm = {PWM_PIN, 0, 25000, 13, 5500}; //67.14% DUTYCYCLE
-IntBuzzer buzzer = {BUZZER_PIN, 3, 25000, 13, 4095}; //50% DUTYCYCLE
+IntBuzzer buzzer = {BUZZER_PIN, 3, 1000, 13, 7500}; //50% DUTYCYCLE
 
 
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
